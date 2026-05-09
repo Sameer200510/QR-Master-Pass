@@ -8,6 +8,7 @@ export default function Scanner() {
   const rafRef = useRef(null);
   
   const [status, setStatus] = useState('scanning'); // scanning, success, denied, no-camera
+  const isScanningRef = useRef(true);
   
   const masterPayload = "msauth://secure-gate/master-pass-2026-X9F2K";
 
@@ -25,10 +26,12 @@ export default function Scanner() {
         videoRef.current.srcObject = stream;
         videoRef.current.play();
         setStatus('scanning');
+        isScanningRef.current = true;
       }
     } catch (err) {
       console.error(err);
       setStatus('no-camera');
+      isScanningRef.current = false;
     }
   };
 
@@ -48,7 +51,7 @@ export default function Scanner() {
     const v = videoRef.current;
     const c = canvasRef.current;
     if (!v || !c || v.readyState < v.HAVE_ENOUGH_DATA) {
-      if (status === 'scanning') {
+      if (isScanningRef.current) {
         rafRef.current = requestAnimationFrame(scanFrame);
       }
       return;
@@ -56,7 +59,7 @@ export default function Scanner() {
 
     c.width = v.videoWidth;
     c.height = v.videoHeight;
-    const ctx = c.getContext('2d');
+    const ctx = c.getContext('2d', { willReadFrequently: true });
     ctx.drawImage(v, 0, 0, c.width, c.height);
     const imgData = ctx.getImageData(0, 0, c.width, c.height);
     
@@ -64,10 +67,11 @@ export default function Scanner() {
       inversionAttempts: "dontInvert",
     });
 
-    if (code && code.data) {
+    if (code && code.data && isScanningRef.current) {
+      isScanningRef.current = false;
       handleScan(code.data);
     } else {
-      if (status === 'scanning') {
+      if (isScanningRef.current) {
         rafRef.current = requestAnimationFrame(scanFrame);
       }
     }
@@ -85,6 +89,7 @@ export default function Scanner() {
 
   const resetScanner = () => {
     setStatus('scanning');
+    isScanningRef.current = true;
     if (rafRef.current) cancelAnimationFrame(rafRef.current);
     rafRef.current = requestAnimationFrame(scanFrame);
   };
