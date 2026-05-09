@@ -41,14 +41,14 @@ function Navigation() {
             className={`nav-link ${location.pathname === '/' ? 'active' : ''}`}
             style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}
           >
-            <QrCode size={16} /> <span className="hide-mobile">Generate QR</span>
+            <QrCode size={16} /> <span>Generate</span>
           </Link>
           <Link 
             to="/scanner" 
             className={`nav-link ${location.pathname === '/scanner' ? 'active' : ''}`}
             style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}
           >
-            <ScanLine size={16} /> <span className="hide-mobile">Scanner</span>
+            <ScanLine size={16} /> <span>Scanner</span>
           </Link>
         </div>
         
