@@ -8,6 +8,7 @@ export default function Scanner() {
   const rafRef = useRef(null);
   
   const [status, setStatus] = useState('scanning'); // scanning, success, denied, no-camera
+  const [scanCount, setScanCount] = useState(0);
   const isScanningRef = useRef(true);
   
   const masterPayload = "msauth://secure-gate/master-pass-2026-X9F2K";
@@ -80,6 +81,7 @@ export default function Scanner() {
   const handleScan = (data) => {
     if (data === masterPayload) {
       setStatus('success');
+      setScanCount(prev => prev + 1);
       playSuccessSound();
     } else {
       setStatus('denied');
@@ -131,7 +133,21 @@ export default function Scanner() {
   return (
     <div className="animate-fade-in" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', flex: 1 }}>
       
-      <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+      <div style={{ textAlign: 'center', marginBottom: '2rem', position: 'relative' }}>
+        <div style={{ 
+          display: 'inline-block',
+          background: 'var(--surface)', 
+          border: '1px solid var(--border)',
+          padding: '0.25rem 0.75rem', 
+          borderRadius: '999px',
+          fontSize: '0.875rem',
+          fontWeight: 700,
+          color: 'var(--brand)',
+          marginBottom: '1rem',
+          boxShadow: 'var(--shadow)'
+        }}>
+          Total Scanned: {scanCount}
+        </div>
         <h2 style={{ fontSize: '2rem', fontWeight: 900, marginBottom: '0.5rem' }}>Gate Scanner</h2>
         <p style={{ color: 'var(--text-muted)' }}>Point camera at the QR code</p>
       </div>
