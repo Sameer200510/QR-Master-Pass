@@ -1,0 +1,283 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
+
+:root {
+  --bg: #f8fafc;
+  --surface: #ffffff;
+  --border: #e2e8f0;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --brand: #ef4444; /* Red theme since they asked for red border */
+  --brand-dark: #b91c1c;
+  --brand-light: #fee2e2;
+  --green: #10b981;
+  --radius: 1rem;
+  --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+}
+
+.dark {
+  --bg: #09090b;
+  --surface: #18181b;
+  --border: #27272a;
+  --text-primary: #f8fafc;
+  --text-secondary: #a1a1aa;
+  --brand: #ef4444;
+  --brand-dark: #dc2626;
+  --brand-light: #450a0a;
+  --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Outfit', sans-serif;
+  background-color: var(--bg);
+  color: var(--text-primary);
+  transition: all 0.3s ease;
+  min-height: 100vh;
+}
+
+.app-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.card {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 2rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s ease;
+  font-family: 'Outfit', sans-serif;
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--brand), var(--brand-dark));
+  color: white;
+  box-shadow: 0 4px 14px rgba(239, 68, 68, 0.3);
+}
+
+.btn-primary:hover {
+  box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  background-color: var(--surface);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+}
+
+.btn-secondary:hover {
+  border-color: var(--text-secondary);
+}
+
+/* Glassmorphism */
+.glass {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dark .glass {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Custom Scanner styles */
+.scanner-container {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  border-radius: 1.5rem;
+  overflow: hidden;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  border: 4px solid var(--surface);
+}
+
+.scan-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.scan-box {
+  width: 70%;
+  aspect-ratio: 1;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  position: relative;
+  border-radius: 1rem;
+}
+
+.scan-box::before {
+  content: '';
+  position: absolute;
+  top: -2px; left: -2px;
+  width: 40px; height: 40px;
+  border-top: 4px solid var(--brand);
+  border-left: 4px solid var(--brand);
+  border-top-left-radius: 1rem;
+}
+
+.scan-box::after {
+  content: '';
+  position: absolute;
+  top: -2px; right: -2px;
+  width: 40px; height: 40px;
+  border-top: 4px solid var(--brand);
+  border-right: 4px solid var(--brand);
+  border-top-right-radius: 1rem;
+}
+
+.scan-box-bottom-left {
+  position: absolute;
+  bottom: -2px; left: -2px;
+  width: 40px; height: 40px;
+  border-bottom: 4px solid var(--brand);
+  border-left: 4px solid var(--brand);
+  border-bottom-left-radius: 1rem;
+}
+
+.scan-box-bottom-right {
+  position: absolute;
+  bottom: -2px; right: -2px;
+  width: 40px; height: 40px;
+  border-bottom: 4px solid var(--brand);
+  border-right: 4px solid var(--brand);
+  border-bottom-right-radius: 1rem;
+}
+
+.scan-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--brand);
+  box-shadow: 0 0 15px 3px var(--brand);
+  animation: scan 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  border-radius: 50%;
+}
+
+@keyframes scan {
+  0% { top: 0%; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Master QR Container */
+.qr-master-wrapper {
+  position: relative;
+  display: inline-block;
+  padding: 1rem;
+  background: white;
+  border-radius: 1.5rem;
+  box-shadow: 0 20px 40px -10px rgba(0,0,0,0.2);
+}
+
+.qr-master-border {
+  position: absolute;
+  inset: 0;
+  border: 6px solid #ef4444; /* Thick Red Border */
+  border-radius: 1.5rem;
+  pointer-events: none;
+}
+
+.qr-master-ms {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  background: white;
+  padding: 2px 6px;
+  font-weight: 900;
+  font-size: 1.25rem;
+  color: #000;
+  border-radius: 4px;
+  line-height: 1;
+}
+
+/* Navbar */
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-links {
+  display: flex;
+  gap: 1rem;
+}
+
+.nav-link {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  transition: all 0.2s;
+}
+
+.nav-link:hover, .nav-link.active {
+  background: var(--surface);
+  color: var(--text-primary);
+  box-shadow: var(--shadow);
+}
